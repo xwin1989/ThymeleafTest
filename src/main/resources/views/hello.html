@@ -1,9 +1,86 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Good Thymes Virtual Grocery</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<p th:text="${welcome+'x12'}">Welcome to our grocery store!</p>
+<p th:text="${welcome}">Welcome to our grocery store!</p>
+
+<p th:utext="|hello ->${welcome}|">Welcome to our grocery store!</p>
+
+<p th:text="#{m('x12')}">M</p>
+
+<p th:text="XX">M</p>
+
+<p th:text="1+1+1">M</p>
+<input value="xxx" th:alt-title="#{m('x')}"/>
+
+<table>
+    <tr data-th-each="user : ${users}">
+        <td data-th-text="${user.id}">...</td>
+        <td data-th-text="${user.userName}">...</td>
+    </tr>
+</table>
+
+<tr th:each="user : ${users}">
+    <td th:text="*{id}">Onions</td>
+    <td th:text="*{userName}">2.41</td>
+    <td th:text="${userStat.size}">iterStat</td>
+    <td th:text="${#aggregates.sum(user.money.{total*value})}">iterStat</td>
+</tr>
+
+<input th:if="${true}" value="show"/>
+<input th:if="${false}" value="hide"/>
+
+<div th:include="foot2 :: copy"></div>
+
+<!--remove-->
+<table th:remove="${null}?:'all-but-first'">
+    <tr>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>1</td>
+    </tr>
+</table>
+<div th:with="w = 1">
+    <label th:value="${w}"/>
+
+    <div th:with="w = 2">
+        <label th:value="${w}"/>
+    </div>
+</div>
+<div th:with="t=#{data.format}">
+    <label th:value="${#dates.format(today,t)}"/>
+
+    <label th:value="${#calendars.format(calendar,t)}"/>
+</div>
+
+<!--/*-->
+<div th:value="xxx"></div>
+<!--*/-->
+
+<!--/*/
+<div th:text="${welcome}">
+...
+</div>
+/*/-->
+<table>
+    <!--/*/<th:block th:each="user : ${users}">/*/-->
+        <tr>
+            <td th:text="${user.id}">Onions</td>
+            <td th:text="${user.userName}">2.41</td>
+        </tr>
+        <tr th:text="${userStat.odd}?'x'"></tr>
+    <!--/*/</th:block>/*/-->
+</table>
+
+<div th:inline="text">
+    <input th:if="${true}" value="show"/>
+    <p>[[${'xxxx'}]]</p>[[#{data.format}]]
+</div>
+
+
 </body>
 </html>
